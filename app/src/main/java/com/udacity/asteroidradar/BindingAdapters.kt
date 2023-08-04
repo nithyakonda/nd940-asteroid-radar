@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.udacity.asteroidradar.main.AsteroidListAdapter
 import timber.log.Timber
@@ -17,6 +18,7 @@ fun bindPictureOfTheDayImage(imageView: ImageView, imageUrl: String?) {
         Timber.d("Image Uri ::" + imgUri)
         Glide.with(imageView.context)
             .load(imgUri)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .apply(
                 RequestOptions()
                     .placeholder(R.drawable.loading_animation)
@@ -44,8 +46,17 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
+        imageView.contentDescription = imageView.context.getString(R.string.potentially_hazardous_asteroid_image)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
+        imageView.contentDescription = imageView.context.getString(R.string.not_hazardous_asteroid_image)
+    }
+}
+
+@BindingAdapter("asteroidStatusContentDescription")
+fun bindDetailsStatusContentDescription(imageView: ImageView, isHazardous: Boolean) {
+    if (isHazardous) {
+    } else {
     }
 }
 
