@@ -6,7 +6,7 @@ import androidx.room.*
 
 @Dao
 interface AsteroidDao {
-    @Query("select * from asteroiddb order by desc") // TODO: add where clause to include start date
+    @Query("select * from EntityAsteroid order by closeApproachDate asc") // TODO: add where clause to include start date
     fun getAsteroids(): LiveData<List<EntityAsteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

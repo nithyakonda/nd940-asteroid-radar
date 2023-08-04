@@ -6,6 +6,7 @@ import com.udacity.asteroidradar.Constants.BASE_URL
 import com.udacity.asteroidradar.PictureOfDay
 import org.json.JSONObject
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -28,9 +29,9 @@ interface NasaApiService {
     suspend fun getImageOfTheDay(@Query("api_key") apiKey : String):PictureOfDay
 
     @GET("neo/rest/v1/feed")
-    fun getAsteroids(
+    suspend fun getAsteroids(
         @Query("start_date") startDate: String,
-        @Query("api_key") apiKey: String): Call<String>
+        @Query("api_key") apiKey: String): Response<String>
 }
 
 object NasaApi {

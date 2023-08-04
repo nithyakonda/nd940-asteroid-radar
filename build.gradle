@@ -5,7 +5,7 @@ buildscript {
         version_constraint_layout = "2.1.4"
         version_gradle = '7.3.1'
         version_kotlin = "1.8.0"
-        version_lifecycle = "2.6.1"
+        version_lifecycle = "2.2.0"
         version_navigation = '2.5.3'
         version_glide = "4.14.2"
         version_moshi = "1.9.3"
@@ -17,6 +17,7 @@ buildscript {
         version_moshi = "1.9.3"
         version_glide = "4.14.2"
         version_timber = "4.7.1"
+        version_lifecycle_extensions = "2.2.0"
     }
 
     repositories {
@@ -25,7 +26,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3"
 
         // NOTE: Do not place your application dependencies here; they belong
