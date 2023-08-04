@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.api.NasaApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
@@ -18,14 +19,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AsteroidsRepository (private val database: AsteroidsDatabase) {
-    private val API_KEY = "RQnBfn8JkYQkpdPoEYmHnGQvNKBvBrawOKELKBHk"
-    val asteroids: LiveData<List<Asteroid>> = Transformations.map (database.asteroidDao.getAsteroids()) {
+    val asteroids: LiveData<List<Asteroid>> = Transformations.map (database.asteroidDao.getAsteroids(getStartDate())) {
         it.asDomainModel()
     }
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
-            val jsonResult = JSONObject(NasaApi.retrofitService.getAsteroids(getStartDate(), API_KEY).body())
+            val jsonResult = JSONObject(NasaApi.retrofitService.getAsteroids(getStartDate()).body())
             Timber.d("Response JSON \n$jsonResult")
 
             jsonResult?.let {

@@ -43,8 +43,7 @@
                 android:textSize="20sp"
                 android:layout_gravity="bottom"
                 android:background="#55010613"
-                android:text="@{viewModel.pictureOfDay.title}"
-                style="@style/Title"/>
+                android:text="@{viewModel.pictureOfDay.title}"/>
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
