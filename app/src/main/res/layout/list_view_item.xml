@@ -21,8 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{asteroid.codename}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textColor="@color/default_text_color"
+            style="@style/Title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="68347(2001 KB67)" />
@@ -33,8 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@{asteroid.closeApproachDate}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/default_text_color"
+            style="@style/Body"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/asteroid_codename"
             tools:text="2020-02-08" />
@@ -42,8 +40,9 @@
         <ImageView
             android:id="@+id/asteroid_status"
             statusIcon="@{asteroid.potentiallyHazardous}"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/asteroid_codename"
