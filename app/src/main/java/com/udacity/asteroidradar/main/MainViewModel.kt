@@ -49,9 +49,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         getNasaPictureOfTheDay()
-        viewModelScope.launch {
-            repository.refreshAsteroids()
-        }
     }
 
     val asteroids = repository.asteroids
