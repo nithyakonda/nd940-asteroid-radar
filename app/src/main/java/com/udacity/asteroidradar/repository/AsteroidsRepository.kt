@@ -13,6 +13,7 @@ import com.udacity.asteroidradar.database.asDomainModel
 import com.udacity.asteroidradar.main.NasaApiStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -25,13 +26,29 @@ class AsteroidsRepository (private val database: AsteroidsDatabase) {
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
-            val jsonResult = JSONObject(NasaApi.retrofitService.getAsteroids(getStartDate()).body())
-            Timber.d("Response JSON \n$jsonResult")
-
-            jsonResult?.let {
-                database.asteroidDao.insertAll(* parseAsteroidsJsonResult(jsonResult).asDatabaseModel())
-                Timber.i(jsonResult.toString())
+            val response = NasaApi.retrofitService.getAsteroids(getStartDate())
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                if (responseBody != null) {
+                    try {
+                        val jsonResult = JSONObject(responseBody)
+                        Timber.d("Response JSON \n$jsonResult")
+                        jsonResult?.let {
+                            database.asteroidDao.insertAll(* parseAsteroidsJsonResult(jsonResult).asDatabaseModel())
+                            Timber.i(jsonResult.toString())
+                        }
+                    } catch (e: JSONException) {
+                        // Handle JSON parsing error
+                        e.printStackTrace()
+                    }
+                } else {
+                    Timber.e("Null response body")
+                }
+            } else {
+                Timber.i("Network request failed")
             }
+
+
         }
     }
 
