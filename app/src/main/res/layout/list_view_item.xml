@@ -33,6 +33,7 @@
             android:layout_marginTop="8dp"
             android:text="@{asteroid.closeApproachDate}"
             style="@style/Body"
+            app:asteroidStatusContentDescription="@{asteroid.potentiallyHazardous}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/asteroid_codename"
             tools:text="2020-02-08" />
