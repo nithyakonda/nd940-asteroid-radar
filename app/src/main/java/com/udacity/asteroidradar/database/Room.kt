@@ -11,6 +11,9 @@ interface AsteroidDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroids: EntityAsteroid)
+
+    @Query("select count(*) from EntityAsteroid where closeApproachDate = :date")
+    fun hasAsteroidsWithDate(date: String): Int
 }
 
 @Database(entities = [EntityAsteroid::class], version = 1)

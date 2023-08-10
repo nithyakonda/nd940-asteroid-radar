@@ -3,30 +3,34 @@ package com.udacity.asteroidradar.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.BuildConfig
-import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.api.NasaApi
+import com.udacity.asteroidradar.api.getToday
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.asDatabaseModel
 import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.database.asDomainModel
-import com.udacity.asteroidradar.main.NasaApiStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 
 class AsteroidsRepository (private val database: AsteroidsDatabase) {
-    val asteroids: LiveData<List<Asteroid>> = Transformations.map (database.asteroidDao.getAsteroids(getStartDate())) {
+    val asteroids: LiveData<List<Asteroid>> = Transformations.map (database.asteroidDao.getAsteroids(getToday())) {
         it.asDomainModel()
     }
 
-    suspend fun refreshAsteroids() {
+    suspend fun hasAsteroidsForToday(): Boolean {
+        var hasAsteroids:Boolean
         withContext(Dispatchers.IO) {
-            val response = NasaApi.retrofitService.getAsteroids(getStartDate())
+            hasAsteroids = database.asteroidDao.hasAsteroidsWithDate(getToday()) >= 1
+        }
+        return hasAsteroids
+    }
+
+    suspend fun refreshAsteroids(startDate: String) {
+        withContext(Dispatchers.IO) {
+            val response = NasaApi.retrofitService.getAsteroids(startDate)
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null) {
@@ -50,10 +54,5 @@ class AsteroidsRepository (private val database: AsteroidsDatabase) {
 
 
         }
-    }
-
-    private fun getStartDate(): String {
-        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
     }
 }
