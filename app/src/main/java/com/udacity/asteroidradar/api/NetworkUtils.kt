@@ -50,6 +50,13 @@ fun getToday(): String {
     return dateFormat.format(Calendar.getInstance().time)
 }
 
+fun getDayOffsetBy(offset:Int): String {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DAY_OF_YEAR, offset)
+    val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+    return dateFormat.format(calendar.time)
+}
+
 private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 

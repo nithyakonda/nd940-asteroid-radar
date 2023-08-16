@@ -43,6 +43,13 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.updateFilter(
+            when (item.itemId) {
+                R.id.show_today_menu -> NasaApiFilter.SHOW_TODAY
+                R.id.show_week_menu -> NasaApiFilter.SHOW_NEXT_WEEK
+                else -> NasaApiFilter.SHOW_SAVED
+            }
+        )
         return true
     }
 }

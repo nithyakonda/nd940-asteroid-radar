@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 enum class NasaApiStatus { LOADING, ERROR, DONE }
+enum class NasaApiFilter {SHOW_TODAY, SHOW_NEXT_WEEK, SHOW_SAVED}
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _status = MutableLiveData<NasaApiStatus>()
@@ -64,6 +65,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Navigation
+    fun updateFilter(filter: NasaApiFilter) {
+        repository.updateFilter(filter)
+    }
+
     fun displayAsteroidDetails(asteroid: Asteroid) {
         _navigateToSelectedAsteroid.value = asteroid
     }
